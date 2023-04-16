@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>订单分布和分配</title>
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all" />
+    <style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        font-family: "Segoe UI", Helvetica, Arial, Sans-Serif;
+      }
+      #myMap {
+        width: 100%;
+        height: 760px;
+        float: left;
+      }
+      #myMap1 {
+        width: 100%;
+        height: 760px;
+        float: left;
+      }
+    </style>
+  </head>
+  <script type="text/javascript" src="./js/jquery.min.js"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css"
+    rel="stylesheet"
+  />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+  <body onload="loadMapScenario()">
+    <!-- 侧边栏 -->
+    <div class="layui-layout layui-layout-admin">
+      <div class="layui-header">
+            <!-- Logo 图标 -->
+            <div class="layui-logo">
+                <i class="layui-icon layui-icon-logo"></i> <!-- 使用 layui-icon 图标库中的 logo 图标 -->
+                Taxi system
+            </div>
+      </div>
+
+      <div class="layui-side layui-bg-cyan">
+        <div class="layui-nav layui-nav-tree" lay-filter="sidebar">
+          <ul class="layui-nav layui-nav-tree layui-bg-black" lay-shrink="all">
+            <li class="layui-nav-item layui-nav-itemed">
+              <a href="javascript:;">网约车订单分配平台</a>
+              <dl class="layui-nav-child">
+                <dd>
+                  <a href="javascript:;" onclick="location.href='index.html'"
+                    >订单生成</a
+                  >
+                </dd>
+                <dd>
+                  <a href="javascript:;" onclick="location.href='page_road.html'"
+                    >分配订单</a
+                  >
+                </dd>
+              </dl>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    <div class="layui-body" id="content">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <ul hidden="hidden" class="layui-tab-title">
+              <li class="layui-this">订单分布</li>
+              <li>司机路径</li>
+            </ul>
+            <div class="layui-tab-content">
+              <div id="content1" class="layui-tab-item layui-show">
+                <div class="layui-form-item">
+                  <div class="layui-inline">
+                    <label class="layui-form-label">时间段选择</label>
+                    <div class="layui-input-block">
+                      <input
+                        type="text"
+                        name="date"
+                        id="test1"
+                        autocomplete="off"
+                        class="layui-input"
+                      />
+                    </div>
+                  </div>
+                  <div class="layui-inline">
+                    <div style="width: 250px; margin: 0">
+                      <button
+                        type="button"
+                        class="layui-btn layui-btn-fluid layui-btn-lg"
+                        id="num"
+                        style="cursor: default"
+                      >
+                        该时间段的订单数目：0
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div id="myMap"></div>
+              </div>
+              <div id="content2" class="layui-tab-item">
+                <form class="layui-form" action="">
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">机制选择</label>
+                    <div class="layui-input-inline" style="width: 160px">
+                      <select
+                        name="modules"
+                        id="DISPATCHING"
+                        lay-filter="DISPATCHING"
+                        lay-verify="required"
+                        lay-search=""
+                      >
+                        <option value="0">我们的算法1</option>
+                        <option value="1">我们的算法2</option>
+                      </select>
+                    </div>
+                    <label class="layui-form-label">司机选择</label>
+                    <div class="layui-input-inline" style="width: 140px">
+                      <select
+                        name="modules"
+                        id="driver"
+                        lay-filter="test1"
+                        lay-verify="required"
+                        lay-search=""
+                      >
+                        <option value="" selected>选择司机编号</option>
+                        <option value="0">0号司机</option>
+                        <option value="1">1号司机</option>
+                      </select>
+                    </div>
+                    <div class="layui-input-inline">
+                      <label class="layui-form-label">时间段选择</label>
+                      <div class="layui-input-block">
+                        <input
+                          type="text"
+                          name="date"
+                          id="test2"
+                          autocomplete="off"
+                          class="layui-input"
+                          style="width: 160px"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="layui-input-inline"
+                      style="width: 450px; margin-left: 80px; height: 38px"
+                    >
+                      <blockquote
+                        class="layui-elem-quote layui-quote-nm"
+                        style="width: 670px; color: #d65a1c"
+                      >
+                        Tips：先选择司机编号，再选择时间段。时间段起始间隔最好不要超过10分钟！每次选择都要点击确定哦！
+                      </blockquote>
+                    </div>
+                  </div>
+                </form>
+                <div id="myMap1"></div>
+                <script type="text/javascript">
+                  function loadMapScenario() {
+                    var map1 = new Microsoft.Maps.Map(
+                      document.getElementById("myMap"),
+                      {
+                        center: new Microsoft.Maps.Location(40.790711, -73.977166),
+                      }
+                    );
+                    map1.setOptions({
+                      maxZoom: 17,
+                      minZoom: 12,
+                    });
+                    var map = new Microsoft.Maps.Map(
+                      document.getElementById("myMap1"),
+                      {
+                        /* No need to set credentials if already passed in URL */
+                        center: new Microsoft.Maps.Location(40.790711, -73.977166),
+                      }
+                    );
+                    map.setOptions({
+                      maxZoom: 14,
+                      minZoom: 12,
+                    });
+                  }
+                </script>
+                <script
+                  type="text/javascript"
+                  src="https://www.bing.com/api/maps/mapcontrol?key=Au74i9qFU8OT2GnWW-H2lntB1mXi-JZ0qH8tUBOnpPoH65Zw8J4CUpv3yChEOxY2&callback=loadMapScenario&mkt=zh-cn&setlang=zh-cn"
+                  async
+                  defer
+                ></script>
+                <script type="text/javascript">
+                  window.οnlοad = function () {
+                    //js代码请求
+                  };
+                  $(function () {
+                    for (var i = 2; i < 500; i++) {
+                      htmls = "<option value=" + i + ">" + i + "号司机" + "</option>";
+                      $("#driver").append(htmls);
+                    }
+                  });
+                </script>
+              </div>
+            </div>
+        </div>
+    </div>
+<script src="layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript">
+//   layer.msg("第一次打开页面，请耐心等待数据加载！", {
+//     icon: 6,
+//     time: 3000,
+//   });
+  var json_data1;
+  function VCG(data) {
+    //console.log(data);
+    json_data1 = data;
+    return json_data1;
+  }
+  var json_data2;
+  function AM(data) {
+    //console.log(data);
+    json_data2 = data;
+    return json_data2;
+  }
+  var driver_data;
+  function LL(data) {
+    //console.log(data);
+    driver_data = data;
+    return driver_data;
+  }
+  console.log(driver_data);
+  var DISPATCHING_id = 0;
+  layui.use(["form", "laydate"], function () {
+    var form = layui.form;
+    form.on("select(test1)", function (data) {
+      driver_id = data.value;
+      return driver_id;
+    });
+    var form1 = layui.form;
+    form1.on("select(DISPATCHING)", function (data) {
+      DISPATCHING_id = data.value;
+      return DISPATCHING_id;
+    });
+    var laydate2 = layui.laydate;
+    laydate2.render({
+      elem: "#test2", //指定元素
+      type: "time",
+      range: true,
+      value: "19:00:00 - 19:00:00",
+      min: "19:00:00",
+      max: "20:00:00",
+      done: function (value, date, endDate) {
+        var min;
+        var max;
+        var driver_data2 = [];
+        if (DISPATCHING_id == 1) {
+          json_data = json_data2;
+        } else {
+          json_data = json_data1;
+        }
+        console.log(json_data);
+        //console.log(driver_id);
+        min = date.hours * 60 * 60 + date.minutes * 60 + date.seconds;
+        max =
+          endDate.hours * 60 * 60 + endDate.minutes * 60 + endDate.seconds;
+        for (var i = 0; i < json_data.length; i = i + 1) {
+          if (
+            json_data[i].request_time <= max &&
+            json_data[i].request_time >= min &&
+            json_data[i].driverID == driver_id
+          ) {
+            driver_data2.push(json_data[i]);
+          }
+        }
+        console.log(driver_data2);
+        var map = new Microsoft.Maps.Map(
+          document.getElementById("myMap1"),
+          {
+            /* No need to set credentials if already passed in URL */
+            center: new Microsoft.Maps.Location(40.760711, -73.977166),
+          }
+        );
+        map.setOptions({
+          maxZoom: 14,
+          minZoom: 12,
+        });
+        var center = map.getCenter();
+        if (driver_data2.length > 0) {
+          if (driver_data2.length == 1) {
+            var driver_loc = driver_data2[0].driver_location;
+            var keys = [];
+            for (key in driver_data2[0].path) {
+              keys.push(key);
+            }
+            var infobox = new Microsoft.Maps.Infobox(
+              new Microsoft.Maps.Location(driver_loc[0], driver_loc[1]),
+              {
+                title:
+                  "在该时间段，" +
+                  driver_data2[0].driverID +
+                  "号司机分配到了" +
+                  driver_data2[0].orderID +
+                  "号订单（起点：" +
+                  keys[0] +
+                  "节点 终点：" +
+                  keys[keys.length - 1] +
+                  "节点）",
+                description:
+                  "完成该订单获得报酬" + driver_data2[0].reward + "元",
+                visible: false,
+                maxWidth: 300,
+              }
+            );
+            infobox.setMap(map);
+            var pushpin = new Microsoft.Maps.Pushpin(
+              new Microsoft.Maps.Location(driver_loc[0], driver_loc[1]),
+              { title: driver_data2[0].driverID + "号司机" }
+            );
+            Microsoft.Maps.Events.addHandler(pushpin, "click", function () {
+              infobox.setOptions({
+                visible: true,
+              });
+            });
+            Microsoft.Maps.loadModule(
+              "Microsoft.Maps.Directions",
+              function () {
+                var directionsManager =
+                  new Microsoft.Maps.Directions.DirectionsManager(map);
+                // Set Route Mode to walking
+                directionsManager.setRequestOptions({
+                  routeMode: Microsoft.Maps.Directions.RouteMode.walking,
+                });
+                var driver = new Microsoft.Maps.Directions.Waypoint({
+                  address: driver_data2[0].driverID + "号司机",
+                  location: new Microsoft.Maps.Location(
+                    driver_loc[0],
+                    driver_loc[1]
+                  ),
+                });
+                for (key in driver_data2[0].path) {
+                  var waypoint1 = new Microsoft.Maps.Directions.Waypoint({
+                    address: key + "节点",
+                    location: new Microsoft.Maps.Location(
+                      driver_data2[0].path[key][0],
+                      driver_data2[0].path[key][1]
+                    ),
+                  });
+                  directionsManager.addWaypoint(waypoint1);
+                }
+                // directionsManager.addWaypoint(driver);
+                map.entities.push(pushpin);
+                // Set the element in which the itinerary will be rendered
+                directionsManager.setRenderOptions({
+                  itineraryContainer:
+                    document.getElementById("printoutPanel"),
+                });
+                directionsManager.calculateDirections();
+              }
+            );
+          } else {
+            var driver_loc = driver_data2[0].driver_location;
+            var keys = [];
+            for (key in driver_data2[0].path) {
+              keys.push(key);
+            }
+            var keys2 = [];
+            for (key in driver_data2[1].path) {
+              keys2.push(key);
+            }
+            var str = "";
+            var str2 = "";
+            for (var j = 1; j < driver_data2.length; j++) {
+              str =
+                str +
+                "和" +
+                driver_data2[j].orderID +
+                "号订单（起点：" +
+                driver_data2[j].order_pick_drop[0] +
+                "节点 终点：" +
+                driver_data2[j].order_pick_drop[1] +
+                "节点）";
+              str2 = str2 + "、" + driver_data2[j].reward + "元";
+            }
+            var infobox = new Microsoft.Maps.Infobox(
+              new Microsoft.Maps.Location(driver_loc[0], driver_loc[1]),
+              {
+                title:
+                  "在该时间段，" +
+                  driver_data2[0].driverID +
+                  "号司机分配到了" +
+                  driver_data2[0].orderID +
+                  "号订单（起点：" +
+                  keys[0] +
+                  "节点 终点：" +
+                  keys[keys.length - 1] +
+                  "节点）" +
+                  str,
+                description:
+                  "完成订单分别获得报酬" +
+                  driver_data2[0].reward +
+                  "元" +
+                  str2,
+                visible: false,
+                maxWidth: 300,
+              }
+            );
+            infobox.setMap(map);
+            var pushpin = new Microsoft.Maps.Pushpin(
+              new Microsoft.Maps.Location(driver_loc[0], driver_loc[1]),
+              { title: driver_data2[0].driverID + "号司机" }
+            );
+            Microsoft.Maps.Events.addHandler(pushpin, "click", function () {
+              infobox.setOptions({
+                visible: true,
+              });
+            });
+            Microsoft.Maps.loadModule(
+              "Microsoft.Maps.Directions",
+              function () {
+                var directionsManager =
+                  new Microsoft.Maps.Directions.DirectionsManager(map);
+                // Set Route Mode to walking
+                directionsManager.setRequestOptions({
+                  routeMode: Microsoft.Maps.Directions.RouteMode.walking,
+                });
+                var driver = new Microsoft.Maps.Directions.Waypoint({
+                  address: driver_data2[0].driverID + "号司机",
+                  location: new Microsoft.Maps.Location(
+                    driver_loc[0],
+                    driver_loc[1]
+                  ),
+                });
+                for (key in driver_data2[driver_data2.length - 1].path) {
+                  var waypoint1 = new Microsoft.Maps.Directions.Waypoint({
+                    address: key + "节点",
+                    location: new Microsoft.Maps.Location(
+                      driver_data2[driver_data2.length - 1].path[key][0],
+                      driver_data2[driver_data2.length - 1].path[key][1]
+                    ),
+                  });
+                  directionsManager.addWaypoint(waypoint1);
+                }
+                // directionsManager.addWaypoint(driver);
+                map.entities.push(pushpin);
+                // Set the element in which the itinerary will be rendered
+                directionsManager.setRenderOptions({
+                  itineraryContainer:
+                    document.getElementById("printoutPanel"),
+                });
+                directionsManager.calculateDirections();
+              }
+            );
+          }
+        } else {
+          driver_data_ = driver_data[driver_id];
+          var latitude = Number(driver_data_.latitude);
+          var longitude = Number(driver_data_.longitude);
+          var infobox = new Microsoft.Maps.Infobox(
+            new Microsoft.Maps.Location(latitude, longitude),
+            {
+              title: driver_id + "号司机在该时间段未被分配到订单",
+              //description: '完成该订单获得报酬0元',
+              visible: false,
+              maxWidth: 300,
+            }
+          );
+          infobox.setMap(map);
+          var pushpin = new Microsoft.Maps.Pushpin(
+            new Microsoft.Maps.Location(latitude, longitude),
+            { title: driver_id + "号司机" }
+          );
+          Microsoft.Maps.Events.addHandler(pushpin, "click", function () {
+            infobox.setOptions({
+              visible: true,
+            });
+          });
+          map.entities.push(pushpin);
+          Microsoft.Maps.loadModule(
+            "Microsoft.Maps.Directions",
+            function () {
+              var directionsManager =
+                new Microsoft.Maps.Directions.DirectionsManager(map);
+              // Set Route Mode to walking
+              directionsManager.setRequestOptions({
+                routeMode: Microsoft.Maps.Directions.RouteMode.walking,
+              });
+              var driver = new Microsoft.Maps.Directions.Waypoint({
+                address: driver_id + "号司机",
+                location: new Microsoft.Maps.Location(latitude, longitude),
+              });
+              //directionsManager.addWaypoint(driver);
+              // Set the element in which the itinerary will be rendered
+              directionsManager.setRenderOptions({
+                itineraryContainer:
+                  document.getElementById("printoutPanel"),
+              });
+              directionsManager.calculateDirections();
+            }
+          );
+        }
+      },
+    });
+  });
+  var order_data;
+  function dataJson(data) {
+    //console.log(data);
+    order_data = data;
+    return order_data;
+  }
+  layui.use("laydate", function () {
+    var laydate1 = layui.laydate;
+
+    laydate1.render({
+      elem: "#test1", //指定元素
+      type: "time",
+      range: true,
+      value: "19:00:00 - 19:00:00",
+      min: "19:00:00",
+      max: "20:00:00",
+      done: function (value, date, endDate) {
+        var min;
+        var max;
+        min = date.hours * 60 * 60 + date.minutes * 60 + date.seconds;
+        max =
+          endDate.hours * 60 * 60 + endDate.minutes * 60 + endDate.seconds;
+        console.log(min);
+        console.log(max);
+        data = order_data;
+        console.log(data);
+        var map = new Microsoft.Maps.Map(document.getElementById("myMap"), {
+          center: new Microsoft.Maps.Location(40.790711, -73.977166),
+        });
+        map.setOptions({
+          maxZoom: 17,
+          minZoom: 12,
+        });
+        var pushpins = [];
+        for (var i = 0; i < data.length; i = i + 1) {
+          if (data[i].request_time <= max && data[i].request_time >= min) {
+            var pin = new Microsoft.Maps.Pushpin(data[i], {
+              icon: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21" height="32" viewBox="0 0 365 560" xml:space="preserve"><path fill="{color}" d="M182.9,551.7c0,0.1,0.2,0.3,0.2,0.3S358.3,283,358.3,194.6c0-130.1-88.8-186.7-175.4-186.9 C96.3,7.9,7.5,64.5,7.5,194.6c0,88.4,175.3,357.4,175.3,357.4S182.9,551.7,182.9,551.7z"/><text x="185" y="280" style="font-size:220px;font-family:arial;fill:#ffffff;" text-anchor="middle">{text}</text></svg>',
+              anchor: new Microsoft.Maps.Point(10, 32),
+              color: "#fd7208",
+              text: "单",
+            });
+            pushpins.push(pin);
+          }
+        }
+        console.log(pushpins);
+        var num = pushpins.length;
+        console.log(num);
+        document.getElementById("num").innerHTML =
+          "该时间段订单数目：" + num;
+        for (var j = 0; j < pushpins.length; j = j + 1) {
+          map.entities.push(pushpins[j]);
+        }
+      },
+    });
+  });
+  layui.use("element", function () {
+    var $ = layui.jquery,
+      element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+    //触发事件
+    var active = {
+      tabAdd: function () {
+        //新增一个Tab项
+        element.tabAdd("demo", {
+          title: "新选项" + ((Math.random() * 1000) | 0), //用于演示
+          content: "内容" + ((Math.random() * 1000) | 0),
+          id: new Date().getTime(), //实际使用一般是规定好的id，这里以时间戳模拟下
+        });
+      },
+      tabDelete: function (othis) {
+        //删除指定Tab项
+        element.tabDelete("demo", "44"); //删除：“商品管理”
+
+        othis.addClass("layui-btn-disabled");
+      },
+      tabChange: function () {
+        //切换到指定Tab项
+        element.tabChange("demo", "22"); //切换到：用户管理
+      },
+    };
+
+    $(".site-demo-active").on("click", function () {
+      var othis = $(this),
+        type = othis.data("type");
+      active[type] ? active[type].call(this, othis) : "";
+    }); //展示不同页面
+  });
+</script>
+<script src="data/order.json?cb=dataJson"></script>
+<script src="data/driver_loc.json?cb=LL"></script>
+<script src="data/AM_driverPath.json?cb=AM"></script>
+<script src="data/VCG_driverPath.json?cb=VCG"></script>
+  </body>
+</html>

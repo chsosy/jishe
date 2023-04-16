@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>订单页面</title>
+    <!-- 引入layui样式文件 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.staticfile.org/layui/2.5.7/css/layui.min.css"
+    />
+  </head>
+  <body>
+    <!-- 侧边栏菜单项 -->
+    <ul
+      class="layui-nav layui-nav-tree layui-nav-side layui-bg-blue"
+      id="sidebar"
+    >
+      <li
+        class="layui-nav-item"
+        onclick="loadContent('test.html', 'user_order_content1')"
+      >
+        用户订单内容1
+      </li>
+      <li
+        class="layui-nav-item"
+        onclick="loadContent('test.html', 'user_order_content2')"
+      >
+        用户订单内容2
+      </li>
+    </ul>
+
+    <!-- 右侧内容区域 -->
+    <div class="layui-body" id="content"></div>
+
+    <!-- 引入layui JavaScript文件 -->
+    <script src="https://cdn.staticfile.org/layui/2.5.7/layui.min.js"></script>
+    <script>
+      function loadContent(page, contentId) {
+        // 发起Ajax请求加载页面内容
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", page, true);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+              // 获取加载的页面内容
+              var response = xhr.responseText;
+              // 根据传入的contentId判断显示哪个订单内容
+              if (contentId === "user_order_content1") {
+                // 从加载的页面内容中提取订单内容1
+                var userOrderContent1 = "用户订单内容1：" + response;
+                // 将订单内容1渲染到指定的HTML元素中
+                document.getElementById("content").innerHTML =
+                  userOrderContent1;
+              } else if (contentId === "user_order_content2") {
+                // 从加载的页面内容中提取订单内容2
+                var userOrderContent2 = "用户订单内容2：" + response;
+                // 将订单内容2渲染到指定的HTML元素中
+                document.getElementById("content").innerHTML =
+                  userOrderContent2;
+              }
+            } else {
+              console.error("加载页面失败，状态码：" + xhr.status);
+            }
+          }
+        };
+        xhr.send();
+      }
+    </script>
+  </body>
+</html>
