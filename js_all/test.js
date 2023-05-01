@@ -753,7 +753,7 @@ var displayData = function (data) {
 
 //方法二
 var Ajax = function () {
-    $.getJSON("../data/AM_driverPath.json", function (data) {
+    $.getJSON("data/AM_driverPath.json", function (data) {
         displayData(data) //传入一个函数
     });
 }();
