@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>数据可视化</title>
+    <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="./fonts/icomoon.css" />
+  </head>
+  <body>
+    <div class="viewport">
+      <div class="column">
+        <div class="overview panel">
+          <div class="inner">
+            <div class="item">
+              <h4>190</h4>
+              <span>
+                <i class="icon-dot" style="color: #006cff"></i>
+                司机数
+              </span>
+            </div>
+            <div class="item">
+              <h4>190</h4>
+              <span>
+                <i class="icon-dot" style="color: #6acca3"></i>
+                订单数
+              </span>
+            </div>
+            <div class="item">
+              <h4>3,001</h4>
+              <span>
+                <i class="icon-dot" style="color: #6acca3"></i>
+                平台收入
+              </span>
+            </div>
+            <div class="item">
+              <h4>108</h4>
+              <span>
+                <i class="icon-dot" style="color: #ed3f35"></i>
+                司机收入
+              </span>
+            </div>
+          </div>
+        </div>
+        <!--监控-->
+        <div class="monitor panel">
+          <div class="inner">
+            <div class="tabs">
+              <a href="javascript:;" data-index="0" class="active">订单详情</a>
+              <a href="javascript:;" data-index="1" id="one">司机收入详情</a>
+            </div>
+            <div class="content" style="display: block">
+              <div class="head">
+                <span class="col">订单号</span>
+                <span class="col">订单起点</span>
+                <span class="col">订单终点</span>
+                <span class="col">订单费用</span>
+              </div>
+              <div class="marquee-view">
+                <div class="marquee" id="order">
+                  <div class="row" id="row1">
+                    <span class="col">474</span>
+                    <span class="col">40.7402651, -73.27915400000002</span>
+                    <span class="col">40.748469, -73.932463</span>
+                    <span class="col">3.69</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row" id="row2">
+                    <span class="col">255</span>
+                    <span class="col">40.7552651, -73.99915400000002</span>
+                    <span class="col">40.788469, -73.972463</span>
+                    <span class="col">19.62</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row" id="row3">
+                    <span class="col">318</span>
+                    <span class="col">40.7302661, -73.97965400000002</span>
+                    <span class="col">40.748569, -73.962463</span>
+                    <span class="col">4.1</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row" id="row4">
+                    <span class="col">452</span>
+                    <span class="col">40.74502651, -73.979515400000002</span>
+                    <span class="col">40.7458469, -73.9952463</span>
+                    <span class="col">16.22</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row" id="row5">
+                    <span class="col">478</span>
+                    <span class="col">40.7552651, -73.99915400000002</span>
+                    <span class="col">40.741469, -73.999463</span>
+                    <span class="col">14.59</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row" id="row6">
+                    <span class="col">298</span>
+                    <span class="col">40.7502651, -73.97915400000002</span>
+                    <span class="col">40.748469, -73.992463</span>
+                    <span class="col">20.4</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row" id="row7">
+                    <span class="col">279</span>
+                    <span class="col">40.7502651, -73.97915400000002</span>
+                    <span class="col">40.748469, -73.992463</span>
+                    <span class="col">18.1</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row" id="row8">
+                    <span class="col">20190701</span>
+                    <span class="col">40.750551, -73.9899000002</span>
+                    <span class="col">40.766469, -73.992463</span>
+                    <span class="col">19.02</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row" id="row9">
+                    <span class="col">102</span>
+                    <span class="col">40.7502651, -73.97915400000002</span>
+                    <span class="col">40.76488469, -73.99263</span>
+                    <span class="col">15.42</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row" id="row10">
+                    <span class="col">322</span>
+                    <span class="col">40.75062651, -73.98791656400002</span>
+                    <span class="col">40.7684669, -73.992063</span>
+                    <span class="col">16.05</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="content">
+              <div class="head">
+                <span class="col">司机ID</span>
+                <span class="col">订单数</span>
+                <span class="col">总收入</span>
+              </div>
+              <div class="marquee-view">
+                <div class="marquee">
+                  <div class="row">
+                    <span class="col">24442</span>
+                    <span class="col">90</span>
+                    <span class="col">1211</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row">
+                    <span class="col">14343</span>
+                    <span class="col">77</span>
+                    <span class="col">1100</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row">
+                    <span class="col">27385</span>
+                    <span class="col">85</span>
+                    <span class="col">1180</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row">
+                    <span class="col">38557</span>
+                    <span class="col">88</span>
+                    <span class="col">1322</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row">
+                    <span class="col">77831</span>
+                    <span class="col">92</span>
+                    <span class="col">1399</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row">
+                    <span class="col">67221</span>
+                    <span class="col">81</span>
+                    <span class="col">1122</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row">
+                    <span class="col">90321</span>
+                    <span class="col">79</span>
+                    <span class="col">1099</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row">
+                    <span class="col">46227</span>
+                    <span class="col">93</span>
+                    <span class="col">1298</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row">
+                    <span class="col">99219</span>
+                    <span class="col">90</span>
+                    <span class="col">1274</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                  <div class="row">
+                    <span class="col">02231</span>
+                    <span class="col">79</span>
+                    <span class="col">1120</span>
+                    <span class="icon-dot"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--点位-->
+        <div class="point panel">
+          <div class="inner">
+            <h3>订单分布统计</h3>
+            <div class="chart">
+              <div class="pie"></div>
+              <div class="data">
+                <div class="item">
+                  <h4>320,11</h4>
+                  <span>
+                    <i class="icon-dot" style="color: #ed3f35"></i>
+                    本月订单数
+                  </span>
+                </div>
+                <div class="item">
+                  <h4>428</h4>
+                  <span>
+                    <i class="icon-dot" style="color: #eacf19"></i>
+                    本月新增
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <!-- 地图 -->
+        <div class="map">
+          <h3>
+            <span class="icon-cube"></span>
+            设备数据统计
+          </h3>
+          <div class="chart">
+            <!-- <div
+              id="directionsPanel"
+              style="position: relative; width: 350px; height: 300px"
+            ></div> -->
+            <div id="myMap1"></div>
+          </div>
+        </div>
+        <!-- 用户 -->
+        <div class="users panel">
+          <div class="inner">
+            <h3>司机收入分布</h3>
+            <div class="chart">
+              <div class="bar"></div>
+              <div class="data">
+                <div class="item">
+                  <h4 id="income_all">120,899</h4>
+                  <span>
+                    <i class="icon-dot" style="color: #ed3f35"></i>
+                    总收入
+                  </span>
+                </div>
+                <div class="item">
+                  <h4 id="income_add">248</h4>
+                  <span>
+                    <i class="icon-dot" style="color: #eacf19"></i>
+                    本月新增收入
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="order panel">
+          <div class="inner">
+            <!-- 筛选 -->
+            <div class="filter">
+              <a href="javascript:;" data-key="day365" class="active">365天</a>
+              <a href="javascript:;" data-key="day90">90天</a>
+              <a href="javascript:;" data-key="day30">30天</a>
+              <a href="javascript:;" data-key="day1">24小时</a>
+            </div>
+            <!-- 数据 -->
+            <div class="data">
+              <div class="item">
+                <h4>301,987</h4>
+                <span>
+                  <i class="icon-dot" style="color: #ed3f35"></i>
+                  订单量
+                </span>
+              </div>
+              <div class="item">
+                <h4>834</h4>
+                <span>
+                  <i class="icon-dot" style="color: #eacf19"></i>
+                  收入(万元)
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 销售额 -->
+        <div class="sales panel">
+          <div class="inner">
+            <div class="caption">
+              <h3>平台收入预测</h3>
+              <a href="javascript:;" class="active" data-type="year">年</a>
+              <a href="javascript:;" data-type="quarter">季</a>
+              <a href="javascript:;" data-type="month">月</a>
+              <a href="javascript:;" data-type="week">周</a>
+            </div>
+            <div class="chart">
+              <div class="label">单位:万</div>
+              <div class="line"></div>
+            </div>
+          </div>
+        </div>
+        <!-- 渠道 季度 -->
+        <div class="wrap">
+          <div class="channel panel">
+            <div class="inner">
+              <h3>接单场景分布</h3>
+              <div class="data">
+                <div class="item">
+                  <h4>39 <small>%</small></h4>
+                  <span>
+                    <i class="icon-plane"></i>
+                    机场
+                  </span>
+                </div>
+                <div class="item">
+                  <h4>28 <small>%</small></h4>
+                  <span>
+                    <i class="icon-bag"></i>
+                    商场
+                  </span>
+                </div>
+              </div>
+              <div class="data">
+                <div class="item">
+                  <h4>20 <small>%</small></h4>
+                  <span>
+                    <i class="icon-train"></i>
+                    地铁
+                  </span>
+                </div>
+                <div class="item">
+                  <h4>13 <small>%</small></h4>
+                  <span>
+                    <i class="icon-bus"></i>
+                    火车站
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="quarter panel">
+            <div class="inner">
+              <h3>一季度收入进度</h3>
+              <div class="chart">
+                <div class="box">
+                  <div class="gauge"></div>
+                  <div class="label">75<small> %</small></div>
+                </div>
+                <div class="data">
+                  <div class="item">
+                    <h4>439</h4>
+                    <span>
+                      <i class="icon-dot" style="color: #6acca3"></i>
+                      收入(万元)
+                    </span>
+                  </div>
+                  <div class="item">
+                    <h4>150%</h4>
+                    <span>
+                      <i class="icon-dot" style="color: #ed3f35"></i>
+                      同比增长
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 排行榜 -->
+        <div class="top panel">
+          <div class="inner">
+            <div class="all">
+              <h3>司机收入榜单</h3>
+              <ul>
+                <li>
+                  <i class="icon-cup1" style="color: #d93f36"></i>
+                  299号司机
+                </li>
+                <li>
+                  <i class="icon-cup2" style="color: #68d8fe"></i>
+                  028号司机
+                </li>
+                <li>
+                  <i class="icon-cup3" style="color: #4c9bfd"></i>
+                  150号司机
+                </li>
+              </ul>
+            </div>
+            <div class="province">
+              <h3>各地区司机收入情况 <i class="date">// 近30日 //</i></h3>
+              <div class="data">
+                <ul class="sup">
+                  <li>
+                    <span>下西城</span>
+                    <span>25,179 <s class="icon-up"></s></span>
+                  </li>
+                  <li>
+                    <span>戏院区</span>
+                    <span>23,252 <s class="icon-down"></s></span>
+                  </li>
+                  <li>
+                    <span>上东城</span>
+                    <span>20,760 <s class="icon-up"></s></span>
+                  </li>
+                  <li>
+                    <span>上西城</span>
+                    <span>23,252 <s class="icon-down"></s></span>
+                  </li>
+                  <li>
+                    <span>哈林区</span>
+                    <span>20,760 <s class="icon-up"></s></span>
+                  </li>
+                </ul>
+                <ul class="sub">
+                  <!-- <li><span>数据</span><span> 数据<s class="icon-up"></s></span></li> -->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script
+    type="text/javascript"
+    src="https://www.bing.com/api/maps/mapcontrol?key=Au74i9qFU8OT2GnWW-H2lntB1mXi-JZ0qH8tUBOnpPoH65Zw8J4CUpv3yChEOxY2&callback=loadMapScenario&mkt=zh-cn&setlang=zh-cn"
+    asyncdefer
+  ></script>
+  <script src="./node_modules/echarts/dist/echarts.js"></script>
+  <script src="./node_modules/echarts-gl/dist/echarts-gl.js"></script>
+  <script src="./js/jquery.min.js"></script>
+  <!-- <script src="./js/echarts.min.js"></script> -->
+  <script src="./js/test.js"></script>
+  <script src="./js/mymap.js"></script>
+  <script src="./js/index.js"></script>
+  <script src="./js/china.js"></script>
+</html>
